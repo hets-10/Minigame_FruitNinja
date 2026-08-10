@@ -31,6 +31,8 @@ export class Game {
     this.lives = GAME_CONFIG.startingLives;
     this.combo = 0;
     this.level = 1;
+    this.remainingTime = GAME_CONFIG.runDurationSeconds;
+    this.runStartedAt = 0;
     this.objects = [];
     this.trail = [];
     this.pointer = null;
@@ -127,6 +129,8 @@ export class Game {
     this.lives = GAME_CONFIG.startingLives;
     this.combo = 0;
     this.level = 1;
+    this.remainingTime = GAME_CONFIG.runDurationSeconds;
+    this.runStartedAt = 0;
     this.objects = [];
     this.trail = [];
     this.previousPointer = null;
@@ -165,6 +169,7 @@ export class Game {
     }
     if (this.state === GAME_STATES.COUNTDOWN) this.updateCountdown(time);
     if (this.state === GAME_STATES.PLAYING) {
+      this.updateTimer(time);
       this.spawnObjects(time);
       this.updateObjects(deltaSeconds, time / 1000);
       this.checkSlices(deltaSeconds);
@@ -205,6 +210,8 @@ export class Game {
     else if (elapsed < 3.65) this.countdownText = "SLICE!";
     else {
       this.state = GAME_STATES.PLAYING;
+      this.runStartedAt = time;
+      this.remainingTime = GAME_CONFIG.runDurationSeconds;
       this.ui.clearOverlay();
       return;
     }
@@ -214,7 +221,7 @@ export class Game {
   spawnObjects(time) {
     const difficulty = this.getDifficulty();
     const levelFactor = Math.min(0.54, (this.level - 1) * 0.045);
-    const interval = (1450 - levelFactor * 1200) * difficulty.spawn;
+    const interval = (1225 - levelFactor * 1000) * difficulty.spawn;
     if (time - this.lastSpawn < interval || this.objects.length >= GAME_CONFIG.objects.maximumActiveObjects) return;
     this.lastSpawn = time;
     const waveCount = this.level < 2 ? 1 : this.level < 4 ? 1 + Number(Math.random() > 0.55) : 1 + Math.floor(Math.random() * 3);
@@ -307,6 +314,13 @@ export class Game {
   loseLife() {
     this.lives -= 1;
     if (this.lives <= 0) this.endGame();
+  }
+
+  updateTimer(time) {
+    if (!this.runStartedAt) this.runStartedAt = time;
+    const elapsedSeconds = (time - this.runStartedAt) / 1000;
+    this.remainingTime = Math.max(0, Math.ceil(GAME_CONFIG.runDurationSeconds - elapsedSeconds));
+    if (this.remainingTime <= 0) this.endGame();
   }
 
   endGame() {
@@ -478,6 +492,7 @@ export class Game {
       score: this.score,
       highScore: this.highScore,
       lives: this.lives,
+      remainingTime: this.remainingTime,
       combo: this.combo,
       level: this.level,
       trackingStatus: this.trackingStatus,

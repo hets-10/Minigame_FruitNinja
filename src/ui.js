@@ -49,13 +49,14 @@ export class UI {
     saveSettings(settings);
   }
 
-  renderHUD({ state, score, highScore, lives, combo, level, trackingStatus, segmentationStatus, musicEnabled, soundEnabled }) {
+  renderHUD({ state, score, highScore, lives, remainingTime, combo, level, trackingStatus, segmentationStatus, musicEnabled, soundEnabled }) {
     const hidden = [GAME_STATES.MENU, GAME_STATES.LOADING, GAME_STATES.ERROR].includes(state);
     this.hud.classList.toggle("hidden", hidden);
     if (hidden) return;
     this.hud.innerHTML = `
       <div class="hud-group">
         <span>Score <strong>${score}</strong></span>
+        <span>Time <strong>${remainingTime}s</strong></span>
         <span>High <strong>${highScore}</strong></span>
         <span>Lives <strong>${"O".repeat(Math.max(0, lives)) || "-"}</strong></span>
         <span>Combo <strong>${combo}x</strong></span>

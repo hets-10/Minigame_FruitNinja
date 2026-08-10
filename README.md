@@ -1,103 +1,113 @@
 # Underwater Hand Slice
 
-A complete browser-based slicing game with an underwater theme. Your webcam is processed locally in the browser: MediaPipe tracks the hand, the index fingertip becomes the blade, and person segmentation replaces the real room background with an animated underwater scene.
+Underwater Hand Slice is a browser-based Fruit Ninja-style minigame. Slice underwater treasure objects with your index finger using webcam hand tracking, or switch to mouse mode for testing without a camera.
 
-## Install And Run
+The game runs entirely in the browser. Camera input, hand tracking, and player segmentation are processed locally on your device.
+
+## Current Version
+
+This version includes:
+
+- 60-second timed runs
+- Larger slice targets
+- Faster object spawn pacing
+- Transparent underwater-themed good objects: pearl shell, coin, and crystals
+- Bomb objects as hazards
+- Score, high score, lives, combo, level, and timer HUD
+- Webcam hand tracking with MediaPipe
+- Mouse mode fallback
+- Underwater background, bubbles, fish, particles, and effects
+- Settings saved in `localStorage`
+
+## Requirements
+
+Install these first:
+
+- Node.js 18 or newer
+- npm, which comes with Node.js
+- A modern browser such as Chrome, Edge, or Safari
+- A webcam if you want hand tracking
+
+Check that Node and npm are installed:
 
 ```bash
+node -v
+npm -v
+```
+
+## Run On Mac
+
+Open Terminal, then run:
+
+```bash
+cd /Users/hetshah/Documents/Minigame_FruitNinja
 npm install
 npm run dev
 ```
 
-Open the Vite localhost URL. Camera access usually requires `localhost` or HTTPS.
-
-## Custom Image Locations
-
-PUT GOOD IMAGES HERE:
+Open the local URL Vite prints. It is usually one of these:
 
 ```text
-public/assets/good/
+http://localhost:5173/
+http://localhost:5174/
 ```
 
-Examples:
+If Vite says `Port 5173 is in use, trying another one`, use the new URL it prints.
+
+Leave Terminal running while you play. Press `Ctrl+C` in Terminal to stop the server.
+
+## Run On Windows
+
+Open Command Prompt or PowerShell, then go to the project folder. Example:
+
+```powershell
+cd C:\Users\YOUR_NAME\Documents\Minigame_FruitNinja
+npm install
+npm run dev
+```
+
+Open the local URL Vite prints, usually:
 
 ```text
-public/assets/good/good1.png
-public/assets/good/good2.png
-public/assets/good/good3.png
+http://localhost:5173/
 ```
 
-PUT BAD OR BOMB IMAGES HERE:
+If that port is busy, Vite may print a different URL such as:
 
 ```text
-public/assets/bad/
+http://localhost:5174/
 ```
 
-Examples:
+Leave the terminal window running while you play. Press `Ctrl+C` to stop the server.
 
-```text
-public/assets/bad/bomb1.png
-public/assets/bad/bomb2.png
+## Build For Production
+
+To make sure the project compiles:
+
+```bash
+npm run build
 ```
 
-PUT THE UNDERWATER BACKGROUND HERE:
+To preview the production build locally:
 
-```text
-public/assets/underwater/background.jpg
+```bash
+npm run preview
 ```
 
-PUT FISH, STARFISH, CORAL, SEAWEED, AND OTHER SEA ASSETS HERE:
+Then open the local URL Vite prints.
 
-```text
-public/assets/underwater/
-```
+## How To Play
 
-PUT THE UNDERWATER MUSIC HERE:
+1. Open the game in your browser.
+2. Click `Start Game`.
+3. Allow camera permission if using hand tracking.
+4. Move your index fingertip quickly through good objects to slice them.
+5. Avoid bombs.
+6. Score as much as possible before the 60-second timer reaches zero.
 
-```text
-public/assets/sounds/underwater-theme.mp3
-```
-
-Sound effects go in:
-
-```text
-public/assets/sounds/
-```
-
-Expected sound paths:
-
-```text
-public/assets/sounds/slice.mp3
-public/assets/sounds/bomb.mp3
-public/assets/sounds/miss.mp3
-public/assets/sounds/bubble.mp3
-public/assets/sounds/level-up.mp3
-```
-
-## Register New Good Or Bad Images
-
-After adding a new good or bad image, add its path here:
-
-```text
-src/assetConfig.js
-```
-
-For example:
-
-```js
-export const GOOD_IMAGES = [
-  "/assets/good/good1.png",
-  "/assets/good/my-new-good-object.webp",
-];
-```
-
-Supported formats: PNG, JPG, JPEG, and WebP. Transparent PNG or WebP files are recommended for game objects and underwater decorations. The game preserves original image aspect ratio and does not stretch images.
+Mouse mode is available from the menu/settings if you do not want to use the camera.
 
 ## Controls
-
-Move your index fingertip quickly through objects to slice them. In mouse mode, move the mouse quickly through objects. Clicking is not required.
-
-Keyboard shortcuts:
 
 - `Escape`: pause or resume
 - `R`: restart after game over
@@ -105,79 +115,83 @@ Keyboard shortcuts:
 - `S`: toggle sound effects
 - `H`: switch hand or mouse mode when not actively playing
 
-## Settings
+In mouse mode, move the mouse quickly through objects. Clicking is not required.
 
-The settings panel includes hand tracking, mouse control, music, sound effects, volume, camera display mode, player underwater effect, segmentation quality, underwater effect level, difficulty, trail visibility, instant game over, and reduced motion.
+## Assets
 
-Defaults:
+Good slice targets live here:
 
-- Controls: Hand Tracking
-- Music: On
-- Sound Effects: On
-- Player Underwater Effect: Subtle
-- Segmentation Quality: Balanced
-- Underwater Effects: Medium
-- Difficulty: Normal
-- Trail: On
-- Instant Game Over: Off
+```text
+public/assets/good/
+```
 
-Settings and high score are stored in `localStorage` when available.
+Current good images:
+
+```text
+public/assets/good/good1.png
+public/assets/good/good2.png
+public/assets/good/good3.png
+```
+
+Bomb images live here:
+
+```text
+public/assets/bad/
+```
+
+Current bomb images:
+
+```text
+public/assets/bad/bomb1.png
+public/assets/bad/bomb2.png
+```
+
+Underwater scene assets live here:
+
+```text
+public/assets/underwater/
+```
+
+Sound assets live here:
+
+```text
+public/assets/sounds/
+```
+
+If you add or rename game objects, update:
+
+```text
+src/assetConfig.js
+```
+
+Transparent PNG or WebP files are recommended for game objects.
 
 ## Camera And Privacy
 
-The browser asks for camera permission only after Start Game is pressed. Hand tracking and segmentation run locally in the browser. No backend, database, user account, or cloud processing is used by this project.
+The browser asks for camera permission only after `Start Game` is pressed. Hand tracking and segmentation run locally in the browser. This project does not use a backend, database, user account, or cloud camera processing.
 
-The player is drawn into the underwater world while the real room background is removed. A hand-preservation mask expands around detected hand landmarks so fingers remain visible even when the segmentation model is imperfect.
-
-Mouse mode is available when the camera is unavailable or when you want to test without a webcam.
+Camera access normally works on `localhost` or HTTPS. If camera permission fails, run with `npm run dev` and open the localhost URL.
 
 ## Troubleshooting
 
-- Camera not appearing: confirm camera permission, close other apps using the camera, and run from `localhost`.
-- Hand not detected: use good lighting, keep the hand inside the camera view, and show the index fingertip clearly.
-- Fingers disappearing: use High Quality segmentation, keep the hand in front of your body when possible, or switch Camera to dimmed raw view.
-- Images not loading: check the file is inside `public/assets/...` and that its path is listed in `src/assetConfig.js`.
-- Music not playing: browsers require a user interaction first; press Start Game. Also confirm the file exists at `public/assets/sounds/underwater-theme.mp3`.
-- Low frame rate: choose Performance segmentation, Low underwater effects, or Reduced Motion.
-- Blank screen: check the browser console, run `npm install`, and ensure the Vite dev server is running.
-- Incorrect mirrored movement: the webcam and MediaPipe coordinates are mirrored intentionally so movement feels natural.
+- Camera not appearing: allow camera permission, close other apps using the camera, and use the localhost URL.
+- Hand not detected: use good lighting and keep your hand inside the camera view.
+- Game does not open: make sure `npm install` has run, then run `npm run dev` again.
+- Terminal prompt came back: the dev server stopped. Run `npm run dev` again and leave it running.
+- Blank screen: check the browser console and run `npm run build` to confirm the app compiles.
+- Images not loading: confirm the file is inside `public/assets/...` and listed in `src/assetConfig.js`.
 
 ## Project Structure
 
 ```text
-underwater-hand-slice-game/
+Minigame_FruitNinja/
 ├── public/
-│   ├── assets/
-│   │   ├── good/
-│   │   │   ├── good1.png
-│   │   │   ├── good2.png
-│   │   │   └── good3.png
-│   │   ├── bad/
-│   │   │   ├── bomb1.png
-│   │   │   └── bomb2.png
-│   │   ├── underwater/
-│   │   │   ├── background.jpg
-│   │   │   ├── foreground-rocks.png
-│   │   │   ├── seaweed1.png
-│   │   │   ├── seaweed2.png
-│   │   │   ├── coral1.png
-│   │   │   ├── coral2.png
-│   │   │   ├── starfish.png
-│   │   │   ├── fish1.png
-│   │   │   ├── fish2.png
-│   │   │   ├── fish3.png
-│   │   │   └── bubble.png
-│   │   ├── effects/
-│   │   │   ├── bubble.png
-│   │   │   ├── sparkle.png
-│   │   │   └── explosion.png
-│   │   └── sounds/
-│   │       ├── slice.mp3
-│   │       ├── bomb.mp3
-│   │       ├── miss.mp3
-│   │       ├── underwater-theme.mp3
-│   │       ├── bubble.mp3
-│   │       └── level-up.mp3
+│   └── assets/
+│       ├── good/
+│       ├── bad/
+│       ├── underwater/
+│       ├── effects/
+│       └── sounds/
 ├── src/
 │   ├── main.js
 │   ├── game.js

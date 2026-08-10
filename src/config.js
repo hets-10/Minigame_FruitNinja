@@ -14,6 +14,7 @@ export const INSTANT_GAME_OVER_ON_BAD_OBJECT = false;
 export const LOSE_LIFE_ON_MISS = false;
 
 export const GAME_CONFIG = {
+  runDurationSeconds: 60,
   startingLives: 3,
   baseGoodScore: 10,
   loseLifeOnMiss: LOSE_LIFE_ON_MISS,
@@ -26,12 +27,12 @@ export const GAME_CONFIG = {
     hiddenAfterMs: 300,
   },
   objects: {
-    goodMinSize: 70,
-    goodMaxSize: 118,
-    badMinSize: 76,
-    badMaxSize: 126,
+    goodMinSize: 84,
+    goodMaxSize: 138,
+    badMinSize: 88,
+    badMaxSize: 144,
     baseGravity: 900,
-    maximumActiveObjects: 15,
+    maximumActiveObjects: 18,
   },
   underwater: {
     maximumFish: 10,
