@@ -12,6 +12,7 @@ This version includes:
 - Larger slice targets
 - Faster object spawn pacing
 - Transparent underwater-themed good objects: pearl shell, coin, and crystals
+- 2 starting lives
 - Octopus/bomb hazard objects that remove 1 life when sliced
 - Score, high score, lives, combo, level, and timer HUD
 - Game Over stats for sliced objects, max combo, bombs hit, and missed objects
@@ -103,7 +104,7 @@ Then open the local URL Vite prints.
 2. Click `Start Game`.
 3. Allow camera permission if using hand tracking.
 4. Move your index fingertip quickly through good objects to slice them.
-5. Avoid octopus/bomb hazards. Slicing one removes 1 life.
+5. You start with 2 lives. Avoid octopus/bomb hazards because slicing one removes 1 life.
 6. Score as much as possible before the 60-second timer reaches zero.
 7. Use the Game Over screen to review sliced objects, max combo, bombs hit, and missed objects.
 
