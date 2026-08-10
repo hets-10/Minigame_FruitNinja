@@ -15,7 +15,7 @@ export const LOSE_LIFE_ON_MISS = false;
 
 export const GAME_CONFIG = {
   runDurationSeconds: 60,
-  startingLives: 3,
+  startingLives: 2,
   baseGoodScore: 10,
   loseLifeOnMiss: LOSE_LIFE_ON_MISS,
   instantGameOverOnBadObject: INSTANT_GAME_OVER_ON_BAD_OBJECT,
