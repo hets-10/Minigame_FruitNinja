@@ -8,12 +8,13 @@ The game runs entirely in the browser. Camera input, hand tracking, and player s
 
 This version includes:
 
-- 60-second timed runs
+- 60-second timed runs with a pulsing final-10-seconds timer warning
 - Larger slice targets
 - Faster object spawn pacing
 - Transparent underwater-themed good objects: pearl shell, coin, and crystals
 - Bomb objects as hazards
 - Score, high score, lives, combo, level, and timer HUD
+- Game Over stats for sliced objects, max combo, bombs hit, and missed objects
 - Webcam hand tracking with MediaPipe
 - Mouse mode fallback
 - Underwater background, bubbles, fish, particles, and effects
@@ -104,8 +105,9 @@ Then open the local URL Vite prints.
 4. Move your index fingertip quickly through good objects to slice them.
 5. Avoid bombs.
 6. Score as much as possible before the 60-second timer reaches zero.
+7. Use the Game Over screen to review sliced objects, max combo, bombs hit, and missed objects.
 
-Mouse mode is available from the menu/settings if you do not want to use the camera.
+The timer highlights and pulses during the final 10 seconds of each run. Mouse mode is available from the menu/settings if you do not want to use the camera.
 
 ## Controls
 
