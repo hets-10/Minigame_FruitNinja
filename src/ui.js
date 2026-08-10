@@ -49,14 +49,14 @@ export class UI {
     saveSettings(settings);
   }
 
-  renderHUD({ state, score, highScore, lives, remainingTime, combo, level, trackingStatus, segmentationStatus, musicEnabled, soundEnabled }) {
+  renderHUD({ state, score, highScore, lives, remainingTime, timerWarning, combo, level, trackingStatus, segmentationStatus, musicEnabled, soundEnabled }) {
     const hidden = [GAME_STATES.MENU, GAME_STATES.LOADING, GAME_STATES.ERROR].includes(state);
     this.hud.classList.toggle("hidden", hidden);
     if (hidden) return;
     this.hud.innerHTML = `
       <div class="hud-group">
         <span>Score <strong>${score}</strong></span>
-        <span>Time <strong>${remainingTime}s</strong></span>
+        <span class="timer-pill ${timerWarning ? "timer-warning" : ""}">Time <strong>${remainingTime}s</strong></span>
         <span>High <strong>${highScore}</strong></span>
         <span>Lives <strong>${"O".repeat(Math.max(0, lives)) || "-"}</strong></span>
         <span>Combo <strong>${combo}x</strong></span>
@@ -131,13 +131,19 @@ export class UI {
     this.bindOverlayButtons();
   }
 
-  showGameOver(score, highScore) {
+  showGameOver({ score, highScore, stats }) {
     this.overlay.className = "overlay translucent";
     this.overlay.innerHTML = `
       <section class="panel compact-panel">
         <p class="eyebrow">Run complete</p>
         <h2>Game Over</h2>
         <p>Score <strong>${score}</strong> · High score <strong>${highScore}</strong></p>
+        <div class="result-grid">
+          <span>Sliced</span><strong>${stats.sliced}</strong>
+          <span>Max Combo</span><strong>${stats.maxCombo}x</strong>
+          <span>Bombs Hit</span><strong>${stats.bombsHit}</strong>
+          <span>Missed</span><strong>${stats.missed}</strong>
+        </div>
         <div class="button-row">
           <button type="button" class="primary" data-action="restart">Restart</button>
           <button type="button" data-action="menu">Return to Menu</button>

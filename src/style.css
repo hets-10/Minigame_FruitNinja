@@ -141,6 +141,50 @@ canvas {
   color: #ffffff;
 }
 
+.timer-pill.timer-warning {
+  color: #fff7d6;
+  background: rgba(230, 55, 55, 0.42);
+  border: 1px solid rgba(255, 226, 140, 0.72);
+  box-shadow: 0 0 24px rgba(255, 84, 84, 0.42);
+  animation: timerPulse 0.72s ease-in-out infinite alternate;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0 2px;
+}
+
+.result-grid span,
+.result-grid strong {
+  min-height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(201, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(143, 233, 245, 0.1);
+}
+
+.result-grid span {
+  color: rgba(235, 255, 255, 0.72);
+}
+
+.result-grid strong {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+@keyframes timerPulse {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.06);
+  }
+}
+
 .hud-actions,
 .hud button {
   pointer-events: auto;
@@ -316,6 +360,10 @@ input[type="checkbox"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .timer-pill.timer-warning {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {

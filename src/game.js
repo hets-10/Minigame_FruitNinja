@@ -33,6 +33,7 @@ export class Game {
     this.level = 1;
     this.remainingTime = GAME_CONFIG.runDurationSeconds;
     this.runStartedAt = 0;
+    this.stats = this.createRunStats();
     this.objects = [];
     this.trail = [];
     this.pointer = null;
@@ -124,6 +125,15 @@ export class Game {
     this.state = GAME_STATES.CALIBRATING;
   }
 
+  createRunStats() {
+    return {
+      sliced: 0,
+      bombsHit: 0,
+      missed: 0,
+      maxCombo: 0,
+    };
+  }
+
   resetRun() {
     this.score = 0;
     this.lives = GAME_CONFIG.startingLives;
@@ -131,6 +141,7 @@ export class Game {
     this.level = 1;
     this.remainingTime = GAME_CONFIG.runDurationSeconds;
     this.runStartedAt = 0;
+    this.stats = this.createRunStats();
     this.objects = [];
     this.trail = [];
     this.previousPointer = null;
@@ -258,6 +269,7 @@ export class Game {
     for (const object of this.objects) {
       if (object.type === "good" && !object.sliced && !object.missed && object.y > this.dimensions.height + object.height) {
         object.missed = true;
+        this.stats.missed += 1;
         this.combo = 0;
         this.audio.play("miss");
         this.particles.addMissSplash(object.x, this.dimensions.height - 18);
@@ -286,6 +298,8 @@ export class Game {
 
   sliceGood(object) {
     this.combo += 1;
+    this.stats.sliced += 1;
+    this.stats.maxCombo = Math.max(this.stats.maxCombo, this.combo);
     const comboBonus = Math.max(0, this.combo - 1) * 2;
     const milestoneBonus = this.combo > 0 && this.combo % 5 === 0 ? 20 : this.combo > 0 && this.combo % 3 === 0 ? 10 : 0;
     this.score += GAME_CONFIG.baseGoodScore + comboBonus + milestoneBonus;
@@ -300,6 +314,7 @@ export class Game {
   }
 
   sliceBad(object) {
+    this.stats.bombsHit += 1;
     this.combo = 0;
     this.audio.play("bomb");
     this.particles.addBadBurst(object.x, object.y, this.settings.reducedMotion);
@@ -326,7 +341,7 @@ export class Game {
   endGame() {
     this.state = GAME_STATES.GAME_OVER;
     this.audio.stopMusic();
-    this.ui.showGameOver(this.score, this.highScore);
+    this.ui.showGameOver({ score: this.score, highScore: this.highScore, stats: this.stats });
   }
 
   draw(time) {
@@ -493,6 +508,7 @@ export class Game {
       highScore: this.highScore,
       lives: this.lives,
       remainingTime: this.remainingTime,
+      timerWarning: this.state === GAME_STATES.PLAYING && this.remainingTime <= 10,
       combo: this.combo,
       level: this.level,
       trackingStatus: this.trackingStatus,
